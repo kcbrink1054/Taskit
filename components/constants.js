@@ -1,0 +1,5 @@
+export const NEONCOLOR = "#2CF9FF"
+export const NEONCOLORSECONDARY = "#0F3031"
+export const TEXTCOLOR = "#0F3031"
+export const BACKGROUNDCOLOR = "#0F3031"
+export const WHITE = "#FFF"
