@@ -1,19 +1,40 @@
 import { StyleSheet, View, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Checkbox } from 'native-base';
 import { NEONCOLOR, WHITE } from "./constants";
 import CustomText from './Text';
 
-
 export default function TaskDropdown(props) {
     const [isExpanded, setIsExpanded] = useState(props.defaultIsExpanded)
+    const [tasks, setTasks] = useState(null)
+
+    useEffect(()=> {
+        setTasks(props.tasks)
+    },[])
+    
+
     const toggle = () => {
-        setIsExpanded(!isExpanded)
+        if (tasks == null) {
+            getTasks((data)=> {
+                setTasks(data)
+                setIsExpanded(!isExpanded)
+            })
+        } else {
+            setIsExpanded(!isExpanded)
+        }
+        
     }
+    
+    const getTasks = async (callback) => {
+        if (props.getTasks != null) {
+            await props.getTasks(callback)    
+        }
+    }
+    
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={()=> toggle()} activeOpacity={1} >
+            <TouchableOpacity onPress={()=> toggle()} activeOpacity={1}>
                 <View style={styles.taskheader}>
                     <CustomText style={styles.headerfont}>{props.label}</CustomText>
                     <Ionicons name={isExpanded ? "chevron-down-outline" : "chevron-forward-outline"} size={32} color={WHITE} style={styles.icon}/>
@@ -21,8 +42,8 @@ export default function TaskDropdown(props) {
             </TouchableOpacity>
             
             <View style={styles.taskcontainer}>
-                {props.tasks && isExpanded &&
-                    props.tasks.map((task)=> {
+                {tasks && isExpanded &&
+                    tasks.map((task)=> {
                         return(
                             <Checkbox onPress={()=> alert("test")} value="checkbox" key={task.TaskId} isChecked={task.isCompleted} colorScheme='blue' style={styles.checkboxcontainer}>
                                 <CustomText style={styles.checkboxtext}>{task.title}</CustomText>
@@ -68,4 +89,4 @@ const styles = StyleSheet.create({
         // padding:10
     }
     
-})
+})  

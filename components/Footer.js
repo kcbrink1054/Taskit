@@ -8,9 +8,9 @@ export default function Footer() {
   return (
     <View style={styles.container}>
         {/* <AddButton/> */}
-        <Ionicons name="menu-outline" size={35} color={NEONCOLOR} style={styles.hideicon}></Ionicons>
+        {/* <Ionicons name="menu-outline" size={35} color={NEONCOLOR} style={styles.hideicon}></Ionicons> */}
         <Ionicons name="add-circle-outline" size={120} color={NEONCOLOR} style={styles.icon}></Ionicons>
-        <Ionicons name="menu-outline" size={35} color={NEONCOLOR}></Ionicons>
+        {/* <Ionicons name="menu-outline" size={35} color={NEONCOLOR}></Ionicons> */}
     </View>
   )
 }
