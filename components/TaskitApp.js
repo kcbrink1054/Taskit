@@ -1,49 +1,70 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import Header from './Header'
 import TaskDropdown from './TaskDropdown'
 import { Container } from "native-base";
 import Footer from './Footer';
-import { GetTaskList, GetCompletedTaskList, SaveDefaultTasks } from './DataStorage';
+import { GetTaskList, GetCompletedTaskList, SaveDefaultTasks, UpdateTask } from './DataStorage';
+import AddNewTask from './AddNewTask';
 export default function TaskitApp() {
-    const [todaysTasks, setTodaysTasks] = useState([])
-    const [myTasks, setMyTasks] = useState([])
-    const [completedTasks, setCompletedTasks] = useState([])
+    const [taskList, setTaskList] = useState([])
+    const [showAddTask, setShowAddTask] = useState(true)
+    
     useEffect(() => {
         (async () => {
-            await GetTaskList(setTodaysTasks)
-        }) ()
-    })
+            // await SaveDefaultTasks()
+            let t = await GetTaskList()
+            setTaskList(t)
+            console.log(JSON.stringify(t))
+        })()
+    },[])
 
+    const GetTodaysTasks = () => {
+        return taskList.filter(x => x.isCompleted == false && new Date(x.startdate) <= new Date())
+    }
+    const GetMyTasks = () => {
+        return taskList.filter(x => x.isCompleted == false && new Date(x.startdate) > new Date())
+    }
+    const GetCompletedTasks = () => {
+        return taskList.filter(x => x.isCompleted == true)
+    }
+    const SaveCheck = async (taskId) => {
+        UpdateTask(taskId, setTaskList)
+    }
 
   return (
-    <View style={styles.container}>
-        {/* <Container> */}
-        {/* <Header/> */}
+    <>
+    { !showAddTask &&
+        <View style={styles.container}>
+        <View style={{height:60}}></View>
         <ScrollView>
             <TaskDropdown
                 label="Today's Task"
                 defaultIsExpanded={true}
-                tasks={todaysTasks}
-                getTasks={null}
+                tasks={GetTodaysTasks()}
+                saveCheck={SaveCheck}
             />
             <TaskDropdown
                 label="My Task"
-                defaultIsExpanded={true}
-                tasks={null}
-                getTasks={null}
+                defaultIsExpanded={false}
+                tasks={GetMyTasks()}
+                saveCheck={SaveCheck}
             />
             <TaskDropdown
                 label="Completed Task"
                 defaultIsExpanded={false}
-                tasks={null}
-                getTasks={GetCompletedTaskList}
+                tasks={GetCompletedTasks()}
+                saveCheck={SaveCheck}
             />
         </ScrollView>
-        <Footer/>
-        {/* </Container> */}
-        
+        <Footer showAddTask={setShowAddTask}/>
     </View>
+    }
+    { showAddTask &&
+        <AddNewTask showAddTask={setShowAddTask}/>
+    }
+        
+    </>
   )
 }
 

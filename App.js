@@ -4,10 +4,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import { BACKGROUNDCOLOR } from './components/constants';
 import TaskitApp from './components/TaskitApp';
 import { useFonts } from "expo-font";
+
 export default function App() {
   const [loaded] = useFonts({
-    Arial: require("./assets/fonts/ARIAL.TTF"),
-    ArialBlack: require("./assets/fonts/ARIALBLACK.ttf"),
+    Arial: require("./fonts/arial.ttf"),
+    ArialBold: require("./fonts/arialbd.ttf"),
   })
 
   if (!loaded) {
@@ -16,9 +17,9 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <Box style={styles.container}>
-        {/* <TaskitApp/> */}
-        <Text>Test</Text>
-        <StatusBar style="auto" />
+        <TaskitApp/>
+        {/* <Text style={{fontFamily:'Arial'}}>Test</Text> */}
+        <StatusBar style="auto" barStyle='light-content' />
         
       </Box>
     </NativeBaseProvider>

@@ -3,56 +3,33 @@ import React, { useEffect, useState } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Checkbox } from 'native-base';
 import { NEONCOLOR, WHITE } from "./constants";
-import CustomText from './Text';
+import { ArialBoldText, ArialText } from './Text';
 
 export default function TaskDropdown(props) {
-    const [isExpanded, setIsExpanded] = useState(props.defaultIsExpanded)
-    const [tasks, setTasks] = useState(null)
-
-    useEffect(()=> {
-        setTasks(props.tasks)
-    },[])
-    
+    const [isExpanded, setIsExpanded] = useState(props.defaultIsExpanded)    
 
     const toggle = () => {
-        if (tasks == null) {
-            getTasks((data)=> {
-                setTasks(data)
-                setIsExpanded(!isExpanded)
-            })
-        } else {
-            setIsExpanded(!isExpanded)
-        }
-        
+        setIsExpanded(!isExpanded)
     }
-    
-    const getTasks = async (callback) => {
-        if (props.getTasks != null) {
-            await props.getTasks(callback)    
-        }
-    }
-    
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={()=> toggle()} activeOpacity={1}>
-                <View style={styles.taskheader}>
-                    <CustomText style={styles.headerfont}>{props.label}</CustomText>
-                    <Ionicons name={isExpanded ? "chevron-down-outline" : "chevron-forward-outline"} size={32} color={WHITE} style={styles.icon}/>
+                <View style={isExpanded ? styles.taskheaderexpanded : styles.taskheader}>
+                    <ArialBoldText style={styles.headertext}>{props.label}</ArialBoldText>
+                    <Ionicons name={isExpanded ? "chevron-down-outline" : "chevron-forward-outline"} size={20} color={WHITE} style={styles.icon}/>
                 </View>
             </TouchableOpacity>
             
             <View style={styles.taskcontainer}>
-                {tasks && isExpanded &&
-                    tasks.map((task)=> {
+                {props.tasks && isExpanded &&
+                    props.tasks.map((task)=> {
                         return(
-                            <Checkbox onPress={()=> alert("test")} value="checkbox" key={task.TaskId} isChecked={task.isCompleted} colorScheme='blue' style={styles.checkboxcontainer}>
-                                <CustomText style={styles.checkboxtext}>{task.title}</CustomText>
+                            <Checkbox onPress={()=> props.saveCheck(task.taskId)} value="checkbox" key={task.taskId} isChecked={task.isCompleted} colorScheme='blue' style={styles.checkboxcontainer}>
+                                <ArialText style={task.isCompleted ? styles.checkboxtextlinethrough : styles.checkboxtext}>{task.title}</ArialText>
                             </Checkbox>
                         )
                     })
-                    
                 }
-                
             </View>
         </View>
   )
@@ -60,33 +37,52 @@ export default function TaskDropdown(props) {
 
 const styles = StyleSheet.create({
     checkboxtext:{
-        fontSize:18
+        fontSize:18,
+        paddingLeft:15
+    },
+    checkboxtextlinethrough:{
+        fontSize:18,
+        paddingLeft:15,
+        textDecorationLine: 'line-through',
+        textDecorationStyle: 'solid'
     },
     checkboxcontainer:{
-        // fontSize:50
         marginVertical:10,
+        marginLeft:55,
         borderColor:NEONCOLOR,
-        backgroundColor:'rgba(0,0,0,0)'
+        backgroundColor:'rgba(0,0,0,0)',
+        
     },
     taskcontainer:{
         // minHeight:100
     },
     container:{
-        paddingHorizontal:20
+        paddingLeft:25
     },
     taskheader:{
         flex:1,
         flexDirection:'row',
-        // justifyContent:'center',
         alignItems:'center',
         paddingBottom:20,
-        paddingTop:10
+        paddingTop:20,
+        borderBottomColor:'#3E4E5E',
+        borderBottomWidth: 1.5
+
     },
-    headerfont:{
-        fontSize:40
+    taskheaderexpanded:{
+        flex:1,
+        flexDirection:'row',
+        alignItems:'center',
+        paddingBottom:20,
+        paddingTop:20,
+        
+
+    },
+    headertext:{
+        fontSize:26
     },
     icon:{
-        // padding:10
+        paddingLeft:8
     }
     
 })  

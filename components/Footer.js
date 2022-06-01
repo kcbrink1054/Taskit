@@ -1,16 +1,15 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
-import Ionicons from '@expo/vector-icons/Ionicons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { NEONCOLOR } from './constants';
 import AddButton from './AddButton';
 
-export default function Footer() {
+export default function Footer(props) {
   return (
     <View style={styles.container}>
-        {/* <AddButton/> */}
-        {/* <Ionicons name="menu-outline" size={35} color={NEONCOLOR} style={styles.hideicon}></Ionicons> */}
-        <Ionicons name="add-circle-outline" size={120} color={NEONCOLOR} style={styles.icon}></Ionicons>
-        {/* <Ionicons name="menu-outline" size={35} color={NEONCOLOR}></Ionicons> */}
+        <TouchableOpacity onPress={() => props.showAddTask(true)}>
+            <AntDesign name="pluscircleo" size={90} color={NEONCOLOR} style={styles.icon}></AntDesign>
+        </TouchableOpacity>
     </View>
   )
 }
@@ -26,7 +25,7 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     icon:{
-        paddingHorizontal:20
+        // paddingHorizontal:20
     },
     hideicon:{
         opacity:0

@@ -5,51 +5,96 @@ const data = [
     {
         title:"Take luna to the vet",
         priority:"high",
-        startdate:"Sept 24",
-        TaskId:1,
+        startdate:new Date(),
+        taskId:1,
         isCompleted:true
     },
     {
         title:"Clean Dishes",
         priority:"high",
-        startdate:"Sept 24",
-        TaskId:2,
+        startdate:new Date(),
+        taskId:2,
         isCompleted:false
     },
     {
         title:"Go to starbucks",
         priority:"high",
-        startdate:"Sept 24",
-        TaskId:3,
+        startdate:new Date(),
+        taskId:3,
+        isCompleted:false
+    },
+    {
+        title:"Work on car",
+        priority:"high",
+        startdate:new Date(),
+        taskId:4,
+        isCompleted:true
+    },
+    {
+        title:"Plan Future",
+        priority:"high",
+        startdate:"2022-05-31T19:38:47.919Z",
+        taskId:5,
+        isCompleted:false
+    },
+    {
+        title:"Go play tennis",
+        priority:"high",
+        startdate:"2022-05-31T19:38:47.919Z",
+        taskId:6,
         isCompleted:false
     },
     
 ]
 
-export const GetCompletedTaskList = async (callback) => {
-    await AsyncStorage.getItem(TASK_KEY).then(x => {
-        let result = JSON.parse(x)
-        let t = result.filter(x => x.isCompleted === true)
-        callback(t)
+export const GetTaskList = async () => {
+    let result = await AsyncStorage.getItem(TASK_KEY)
+    return JSON.parse(result)
+}
+export const UpdateTask = async (taskId, callback) => {
+    let response = await AsyncStorage.getItem(TASK_KEY)
+    let result = JSON.parse(response)
+
+    let taskList = result.map(x => {
+        if (x.taskId === taskId) {
+            x.isCompleted = !x.isCompleted
+        }
+        return x
     })
+    await AsyncStorage.setItem(TASK_KEY, JSON.stringify(taskList)).then(x => {
+        callback(taskList)
+    })
+
+
 }
 
-export const GetTaskList = async (callback) => {
-    await AsyncStorage.getItem(TASK_KEY).then(x => {
-        let result = JSON.parse(x)
-        let t = result.filter(x => x.isCompleted === false)
-        callback(t)
-    })
-}
-
-
-// export const SaveDefaultTasks = async () => {
+export const SaveTask = async (title) => {
+    let response = await GetTaskList()
     
-//     await AsyncStorage.setItem(TASK_KEY, JSON.stringify(data)).then(x => {
-//         alert("success")
-//         return
-//     })
-// }
+    let data = {
+        title:title,
+        startdate:new Date(),
+        taskId:response.length + 1,
+        isCompleted:false
+    }
+    
+
+    // let result = await AsyncStorage.getItem(TASK_KEY)
+    // return JSON.parse(result)
+    alert(JSON.stringify(data))
+    // await AsyncStorage.setItem(TASK_KEY, JSON.stringify(data)).then(x => {
+    //     alert("success")
+    //     return
+    // })
+}
+
+export const SaveDefaultTasks = async () => {
+    
+    await AsyncStorage.setItem(TASK_KEY, JSON.stringify(data)).then(x => {
+        alert("success")
+        return
+    })
+}
 // export const GetTaskListAsync = async () => {
 
 // }
