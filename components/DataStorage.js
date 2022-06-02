@@ -68,7 +68,7 @@ export const UpdateTask = async (taskId, callback) => {
 
 }
 
-export const SaveTask = async (title) => {
+export const SaveTask = async (title, callback) => {
     let response = await GetTaskList()
     
     let data = {
@@ -77,15 +77,10 @@ export const SaveTask = async (title) => {
         taskId:response.length + 1,
         isCompleted:false
     }
-    
-
-    // let result = await AsyncStorage.getItem(TASK_KEY)
-    // return JSON.parse(result)
-    alert(JSON.stringify(data))
-    // await AsyncStorage.setItem(TASK_KEY, JSON.stringify(data)).then(x => {
-    //     alert("success")
-    //     return
-    // })
+    let c = response.concat(data)
+    await AsyncStorage.setItem(TASK_KEY, JSON.stringify(c)).then(x => {
+        callback(c)
+    })
 }
 
 export const SaveDefaultTasks = async () => {

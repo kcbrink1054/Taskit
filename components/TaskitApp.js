@@ -61,7 +61,7 @@ export default function TaskitApp() {
     </View>
     }
     { showAddTask &&
-        <AddNewTask showAddTask={setShowAddTask}/>
+        <AddNewTask showAddTask={setShowAddTask} setTaskList={setTaskList}/>
     }
         
     </>

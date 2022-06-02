@@ -11,8 +11,11 @@ import { SaveTask } from './DataStorage';
 export default function AddNewTask(props) {
     const [title, setTitle] = useState("")
 
-    const saveNewTask = async (data) => {
-        await SaveTask(title)
+    const saveNewTask = async () => {
+        await SaveTask(title, (data) => {
+            props.showAddTask(false)
+            props.setTaskList(data)
+        })
     }
   return (
     <View style={styles.container}>
