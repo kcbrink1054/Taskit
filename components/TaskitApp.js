@@ -6,16 +6,17 @@ import { Container } from "native-base";
 import Footer from './Footer';
 import { GetTaskList, GetCompletedTaskList, SaveDefaultTasks, UpdateTask } from './DataStorage';
 import AddNewTask from './AddNewTask';
+import Button from './Button';
+import * as Notifications from "expo-notifications";
+
 export default function TaskitApp() {
     const [taskList, setTaskList] = useState([])
-    const [showAddTask, setShowAddTask] = useState(true)
+    const [showAddTask, setShowAddTask] = useState(false)
     
     useEffect(() => {
         (async () => {
-            // await SaveDefaultTasks()
             let t = await GetTaskList()
             setTaskList(t)
-            console.log(JSON.stringify(t))
         })()
     },[])
 
@@ -26,12 +27,15 @@ export default function TaskitApp() {
         return taskList.filter(x => x.isCompleted == false && new Date(x.startdate) > new Date())
     }
     const GetCompletedTasks = () => {
-        return taskList.filter(x => x.isCompleted == true)
+        return taskList.filter(x => x.isCompleted == true).slice(0,5)
     }
     const SaveCheck = async (taskId) => {
         UpdateTask(taskId, setTaskList)
     }
 
+    const sendNotification = () => {
+        alert("testtest")
+    }
   return (
     <>
     { !showAddTask &&
@@ -57,6 +61,10 @@ export default function TaskitApp() {
                 saveCheck={SaveCheck}
             />
         </ScrollView>
+        <Button 
+            press={()=>sendNotification()}
+            name="Send Notification"
+        />
         <Footer showAddTask={setShowAddTask}/>
     </View>
     }

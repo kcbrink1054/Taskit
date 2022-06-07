@@ -19,8 +19,7 @@ export default function App() {
       <Box style={styles.container}>
         <TaskitApp/>
         {/* <Text style={{fontFamily:'Arial'}}>Test</Text> */}
-        <StatusBar style="auto" barStyle='light-content' />
-        
+        <StatusBar style='light'/>
       </Box>
     </NativeBaseProvider>
   );
