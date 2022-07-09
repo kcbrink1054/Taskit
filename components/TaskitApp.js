@@ -8,6 +8,7 @@ import { GetTaskList, GetCompletedTaskList, SaveDefaultTasks, UpdateTask } from 
 import AddNewTask from './AddNewTask';
 import Button from './Button';
 import * as Notifications from "expo-notifications";
+import NotificationsHandler from './NotificationsHandler';
 
 export default function TaskitApp() {
     const [taskList, setTaskList] = useState([])
@@ -16,7 +17,7 @@ export default function TaskitApp() {
     useEffect(() => {
         (async () => {
             let t = await GetTaskList()
-            setTaskList(t)
+            setTaskList(t === null ? [] : t)
         })()
     },[])
 
@@ -34,7 +35,7 @@ export default function TaskitApp() {
     }
 
     const sendNotification = () => {
-        alert("testtest")
+        NotificationsHandler.SendNotifications()
     }
   return (
     <>

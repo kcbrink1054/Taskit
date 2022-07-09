@@ -49,6 +49,7 @@ const data = [
 
 export const GetTaskList = async () => {
     let result = await AsyncStorage.getItem(TASK_KEY)
+    console.log(result)
     return JSON.parse(result)
 }
 export const UpdateTask = async (taskId, callback) => {
@@ -71,12 +72,17 @@ export const UpdateTask = async (taskId, callback) => {
 export const SaveTask = async (title, callback) => {
     let response = await GetTaskList()
     
+    if (response === null) {
+        response = []
+    }
+    
     let data = {
         title:title,
         startdate:new Date(),
         taskId:response.length + 1,
         isCompleted:false
     }
+    
     let c = response.concat(data)
     await AsyncStorage.setItem(TASK_KEY, JSON.stringify(c)).then(x => {
         callback(c)
