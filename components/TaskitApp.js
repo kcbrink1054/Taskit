@@ -7,8 +7,8 @@ import Footer from './Footer';
 import { GetTaskList, GetCompletedTaskList, SaveDefaultTasks, UpdateTask } from './DataStorage';
 import AddNewTask from './AddNewTask';
 import Button from './Button';
-import * as Notifications from "expo-notifications";
 import NotificationsHandler from './NotificationsHandler';
+import { BACKGROUNDCOLOR } from './constants';
 
 export default function TaskitApp() {
     const [taskList, setTaskList] = useState([])
@@ -62,10 +62,10 @@ export default function TaskitApp() {
                 saveCheck={SaveCheck}
             />
         </ScrollView>
-        <Button 
+        {/* <Button 
             press={()=>sendNotification()}
             name="Send Notification"
-        />
+        /> */}
         <Footer showAddTask={setShowAddTask}/>
     </View>
     }
@@ -79,6 +79,6 @@ export default function TaskitApp() {
 
 const styles = StyleSheet.create({
     container:{
-        flex: 1
+        flex: 1, backgroundColor:BACKGROUNDCOLOR
     }
 })
