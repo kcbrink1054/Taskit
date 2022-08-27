@@ -30,15 +30,16 @@ export default function App() {
         }}
       >
         <Tab.Screen
-        name='Home'
-        component={TaskSchedule}
-        options={{title: 'Schedule'}}
-        />
-        <Tab.Screen
         name='Homee'
         component={TaskitApp}
         options={{title: 'Tasks'}}
         />
+        <Tab.Screen
+        name='Home'
+        component={TaskSchedule}
+        options={{title: 'Schedule'}}
+        />
+        
       </Tab.Navigator>
       
     </NavigationContainer>

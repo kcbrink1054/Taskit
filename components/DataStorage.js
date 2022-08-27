@@ -49,7 +49,7 @@ const data = [
 
 export const GetTaskList = async () => {
     let result = await AsyncStorage.getItem(TASK_KEY)
-    console.log(result)
+    // console.log(result)
     return JSON.parse(result)
 }
 export const UpdateTask = async (taskId, callback) => {
@@ -85,7 +85,10 @@ export const SaveTask = async (title, callback) => {
     
     let c = response.concat(data)
     await AsyncStorage.setItem(TASK_KEY, JSON.stringify(c)).then(x => {
+        // console.log(c)
         callback(c)
+    }).catch(e => {
+        alert("Error while trying to save async storage.")
     })
 }
 
