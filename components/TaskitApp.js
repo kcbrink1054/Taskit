@@ -82,6 +82,8 @@ function AddDialog(props){
     const [title, setTitle] = useState("")
 
     const saveNewTask = async () => {
+        if (title === '') return;
+        
         await SaveTask(title, (data) => {
             props.setTaskList(data)
             props.setShowAddDialog(false)
@@ -92,8 +94,9 @@ function AddDialog(props){
         <>
             <Dialog.Container visible={props.showAddDialog}>
                 <Dialog.Title>New Task</Dialog.Title>
-                <Dialog.Input placeholder='Enter new task' multiline={true} onChangeText={(t)=>setTitle(t)} value={title}/>
+                <Dialog.Input placeholder='Enter new task' multiline={false} onChangeText={(t)=>setTitle(t)} value={title}/>
                 <Dialog.Button label='Cancel' onPress={() => props.setShowAddDialog(!props.showAddDialog)}/>
+                <Dialog.Button label='Add Another' onPress={() => props.setShowAddDialog(!props.showAddDialog)}/>
                 <Dialog.Button label='Save' onPress={() => saveNewTask()}/>
             </Dialog.Container>
         </>

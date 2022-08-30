@@ -1,23 +1,20 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import React, { useEffect, useState, useCallback } from 'react'
-import Header from './Header'
-import TaskDropdown from './TaskDropdown'
-import { Container } from "native-base";
-import Footer from './Footer';
-import { GetTaskList, GetCompletedTaskList, SaveDefaultTasks, UpdateTask } from './DataStorage';
-import AddNewTask from './AddNewTask';
-import Button from './Button';
-import NotificationsHandler from './NotificationsHandler';
 import { BACKGROUNDCOLOR } from './constants';
 import SingleSchedule from './SingleSchedule';
 
 export default function TaskSchedule() {
+    const [taskSchedule, setTaskSchedule] = useState(initialState)
+
     return (
         <>
             <View style={styles.container}>
                 <View style={{height:60}}></View>
                 <ScrollView>
-                    <SingleSchedule/>
+                    {
+                        taskSchedule.map(x => (<SingleSchedule time={x.time} task={x.task}/>))
+                    }
+                    
                 </ScrollView>
             </View>
         </>
@@ -29,3 +26,18 @@ const styles = StyleSheet.create({
         flex: 1, backgroundColor:BACKGROUNDCOLOR
     }
 })
+
+const initialState = [
+    {
+        time:"8:00 AM",
+        task: "Take Luna outside"
+    },
+    {
+        time:"9:00 AM",
+        task: "Go to the store"
+    },
+    {
+        time:"10:00 AM",
+        task: ""
+    }
+]
