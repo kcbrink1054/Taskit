@@ -4,16 +4,18 @@ import { ArialBoldText, ArialText } from './Text'
 import { WHITE } from './constants'
 
 export default function SingleSchedule(props) {
-  const [task, setTask] = useState(props.task)
   return (
     <View style={styles.container}>
-      <ArialText style={{fontSize:16,textAlignVertical: 'center', backgroundColor:'red'}}>{props.time}</ArialText>
+      <ArialText style={{fontSize:16,textAlignVertical: 'center', minWidth:80}}>{props.time}</ArialText>
       <TextInput
         style={styles.inputContainer}
-        placeholder='Chill'
-        value={task}
-        onChangeText={(t)=>setTask(t)}
-        editable={true}
+        // placeholder='Chill'
+        value={props.task}
+        onChangeText={(t)=>props.onChangeTaskSchedule(t, props.time)}
+        placeholderTextColor={WHITE}
+        // showSoftInputOnFocus={false}
+        // editable={props.edit}
+        onFocus={() => props.changeSetEdit()}
       />
     </View>
   )
@@ -29,14 +31,16 @@ const styles = StyleSheet.create({
         paddingTop:20
     },
     inputContainer:{
-        // backgroundColor:'green',
         borderStyle:'solid',
         borderBottomWidth: 2,
-        borderColor:{WHITE},
-        width:200,
+        borderColor:'#3E4E5E',
+        width:'100%',
         textAlignVertical:'bottom',
         color:WHITE,
         fontSize:20,
-        paddingLeft:10
+        marginLeft:8,
+        marginBottom:10,
+        paddingBottom:5
+        // paddingRight:100
     }
 })

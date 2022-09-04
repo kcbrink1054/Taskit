@@ -1,7 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
 
 const TASK_KEY = "Task"
-const data = [
+const TASK_SCHEDULE_KEY = "TASK_SCHEDULE_KEY"
+
+const d = [
     {
         title:"Take luna to the vet",
         priority:"high",
@@ -99,6 +102,38 @@ export const SaveDefaultTasks = async () => {
         return
     })
 }
-// export const GetTaskListAsync = async () => {
 
-// }
+
+export const SaveTaskSchedule = async (data, callback) => {
+    await AsyncStorage.setItem(TASK_SCHEDULE_KEY, JSON.stringify(data)).then(x => {
+        callback()
+        alert("Save Successful!")
+    }).catch(e => {
+        alert("Error while trying to save async storage.")
+    })
+}
+
+export const GetTaskSchedule = async () => {
+    let result = await AsyncStorage.getItem(TASK_SCHEDULE_KEY)
+    if (result === null || result === []) {
+        result = GetDefaultTaskSchedule()
+    }
+    // console.log(result)
+    return JSON.parse(result)
+}
+
+export const GetDefaultTaskSchedule = () => {
+    console.log("DefaultTaskSchedule")
+    let l = []
+    let x = moment().utcOffset(0).set({hour: 8, minute:0, second:0, millisecond:0})
+    
+    while (x.hour() <= 22) {
+        l.push({
+            time: x.format("h:mm A"),
+            task: ""
+        })
+        x.add(30,'minutes')
+    }
+    // console.log(l)
+    return l
+}
