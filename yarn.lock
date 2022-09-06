@@ -6709,6 +6709,13 @@ react-native-keyboard-aware-scroll-view@^0.9.5:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
 
+react-native-rn-toast@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-rn-toast/-/react-native-rn-toast-1.0.0.tgz#4c18b05dfac7f5e1a6fbe7b6bf78b6a66f936f0d"
+  integrity sha512-QKrkN/MxEknuQ3yzNZ0/tBAS77WOOlmT5VaxXcO+xspZgbPZH9Licb9ofieyP6tq8yZ+OqsqMwT4fh/WPz9w3Q==
+  dependencies:
+    prop-types "^15.6.2"
+
 react-native-safe-area-context@4.2.4:
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-4.2.4.tgz#4df42819759c4d3c74252c8678c2772cfa2271a6"

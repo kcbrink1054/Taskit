@@ -107,7 +107,6 @@ export const SaveDefaultTasks = async () => {
 export const SaveTaskSchedule = async (data, callback) => {
     await AsyncStorage.setItem(TASK_SCHEDULE_KEY, JSON.stringify(data)).then(x => {
         callback()
-        alert("Save Successful!")
     }).catch(e => {
         alert("Error while trying to save async storage.")
     })
@@ -130,10 +129,15 @@ export const GetDefaultTaskSchedule = () => {
     while (x.hour() <= 22) {
         l.push({
             time: x.format("h:mm A"),
-            task: ""
+            task: "",
+            notificationTime:{
+                hours:x.hour(),
+                minutes:x.minute(),
+                seconds: x.second()
+            }
         })
         x.add(30,'minutes')
     }
-    // console.log(l)
+    console.log(l)
     return l
 }

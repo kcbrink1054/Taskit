@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, ScrollView, Keyboard } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Keyboard, ToastAndroid } from 'react-native'
 import React, { useEffect, useState, useCallback } from 'react'
 import { BACKGROUNDCOLOR, NEONCOLOR, WHITE } from './constants';
 import SingleSchedule from './SingleSchedule';
 import { GetDefaultTaskSchedule, GetTaskSchedule, SaveTaskSchedule } from './DataStorage';
 import { Feather } from '@expo/vector-icons';
 import Button from './Button';
+import NotificationsHandler from './NotificationsHandler';
 
 export default function TaskSchedule() {
     const [taskSchedule, setTaskSchedule] = useState([])
@@ -31,6 +32,8 @@ export default function TaskSchedule() {
         await SaveTaskSchedule(taskSchedule,() => {
             Keyboard.dismiss()
             setEdit(false)
+            NotificationsHandler.ScheduleNotifications(taskSchedule)
+            ToastAndroid.show("Save Successful!",ToastAndroid.SHORT)
         })
     }
     const OnChangeTaskSchedule = (text, time) => {
