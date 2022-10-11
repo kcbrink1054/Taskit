@@ -112,13 +112,20 @@ export const SaveTaskSchedule = async (data, callback) => {
     })
 }
 
-export const GetTaskSchedule = async () => {
-    let result = await AsyncStorage.getItem(TASK_SCHEDULE_KEY)
-    if (result === null || result === []) {
-        result = GetDefaultTaskSchedule()
-    }
+export const GetTaskSchedule = async (callback) => {
+    await AsyncStorage.getItem(TASK_SCHEDULE_KEY).then(result => {
+        if (result === null) {
+            // alert("result is null")
+            callback(GetDefaultTaskSchedule())
+        } else{
+            callback(JSON.parse(result))
+        }
+        
+    })
+    // alert(result)
+    
     // console.log(result)
-    return JSON.parse(result)
+    
 }
 
 export const GetDefaultTaskSchedule = () => {
@@ -138,6 +145,6 @@ export const GetDefaultTaskSchedule = () => {
         })
         x.add(30,'minutes')
     }
-    console.log(l)
+    // console.log(l)
     return l
 }

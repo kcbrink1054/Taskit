@@ -95,8 +95,8 @@ function AddDialog(props){
     return(
         <>
             <Dialog.Container visible={props.showAddDialog}>
-                <Dialog.Title>New Task</Dialog.Title>
-                <Dialog.Input placeholder='Enter new task' multiline={false} onChangeText={(t)=>setTitle(t)} value={title}/>
+                <Dialog.Title style={{color: 'black'}}>New Task</Dialog.Title>
+                <Dialog.Input style={{color: 'black'}} placeholder='Enter new task' multiline={false} onChangeText={(t)=>setTitle(t)} value={title}/>
                 <Dialog.Button label='Cancel' onPress={() => props.setShowAddDialog(!props.showAddDialog)}/>
                 <Dialog.Button label='Add Another' onPress={() => saveNewTask(true)}/>
                 <Dialog.Button label='Save' onPress={() => saveNewTask(false)}/>

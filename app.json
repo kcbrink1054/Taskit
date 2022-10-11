@@ -4,16 +4,16 @@
     "slug": "TaskIt",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "icon": "./assets/logo.png",
+    "userInterfaceStyle": "dark",
     "splash": {
-      "image": "./assets/splashsample.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#0B151F"
     },
-    "notification":{
-      "icon":"./assets/logo.png"
-   },
+    "notification": {
+      "icon": "./assets/logo.png"
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -25,14 +25,16 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "foregroundImage": "./assets/logo.png",
+        "backgroundColor": "#0B151F"
+      },
+      "package": "com.kalan.dev.TaskIt",
+      "useNextNotificationsApi": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins":[
+    "plugins": [
       [
         "expo-notifications",
         {
@@ -40,6 +42,11 @@
           "color": "#ffffff"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "34bb14da-1c06-49c0-9fe8-8e2c8f41e07a"
+      }
+    }
   }
 }

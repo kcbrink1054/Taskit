@@ -4,16 +4,18 @@ import * as Notifications from 'expo-notifications'
 
 export default class NotificationsHandler {
 
-  static TestNotification(){
-    Notifications.scheduleNotificationAsync({
-        content: {
-            title: "Time's up!",
-            body: 'Change sides!',
-          },
-          trigger: {
-            seconds: 2,
-          },
-    })
+  static async TestNotification(){
+    await Notifications.cancelAllScheduledNotificationsAsync()
+    console.log("done")
+    // Notifications.scheduleNotificationAsync({
+    //     content: {
+    //         title: "Time's up!",
+    //         body: 'Change sides!',
+    //       },
+    //       trigger: {
+    //         seconds: 3,
+    //       },
+    // })
   }
   // static TestNotification(){
   //   Notifications.scheduleNotificationAsync(

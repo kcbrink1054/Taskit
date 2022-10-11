@@ -12,12 +12,15 @@ export default function TaskSchedule() {
     const [edit, setEdit] = useState(false)
     useEffect(()=> {
         (async () => {
-            let t = await GetTaskSchedule()
-            setTaskSchedule(t)
+            await GetTaskSchedule((t)=> 
+            {
+                console.log(t)
+                setTaskSchedule(t)
+            })
         })()
     }, [])
     const CancelEditTask = async () => {
-        await GetTaskSchedule().then(t => {
+        await GetTaskSchedule(t => {
             Keyboard.dismiss()
             setEdit(false)    
             setTaskSchedule(t)
@@ -67,12 +70,18 @@ export default function TaskSchedule() {
                     
                 </View>
                 <ScrollView>
-                    {
+                    {taskSchedule &&
                         taskSchedule.map((x,i) => {
                             return <SingleSchedule key={i} time={x.time} task={x.task} edit={edit} onChangeTaskSchedule={OnChangeTaskSchedule} changeSetEdit={()=> changeSetEdit()}/>}
                         )
                     }
                 </ScrollView>
+                <View>
+                    <Button
+                        onPress={()=> NotificationsHandler.TestNotification()}
+                        title="Send Notification"
+                    />
+                </View>
                 { edit &&
                     <View style={styles.buttoncontainer}>
                         <Button
