@@ -6,6 +6,7 @@ import { GetDefaultTaskSchedule, GetTaskSchedule, SaveTaskSchedule } from './Dat
 import { Feather } from '@expo/vector-icons';
 import Button from './Button';
 import NotificationsHandler from './NotificationsHandler';
+import moment from 'moment'
 
 export default function TaskSchedule() {
     const [taskSchedule, setTaskSchedule] = useState([])
@@ -57,6 +58,19 @@ export default function TaskSchedule() {
             setEdit(true)
         }
     }
+    const InsertTaskScheduleRow = (data, index) => {
+        let x = [...taskSchedule]
+        x.splice(index+1,0,{
+            time: moment().utcOffset(0).set({hour: data.hours, minute:data.minutes, second:0, millisecond:0}).format("h:mm A"),
+            task: "",
+            notificationTime:{
+                hours:data.hours,
+                minutes:data.minutes,
+                seconds: 0
+            }
+        })
+        setTaskSchedule(x)
+    }
     return (
         <>
             <View style={styles.container}>
@@ -72,7 +86,21 @@ export default function TaskSchedule() {
                 <ScrollView>
                     {taskSchedule &&
                         taskSchedule.map((x,i) => {
-                            return <SingleSchedule key={i} time={x.time} task={x.task} edit={edit} onChangeTaskSchedule={OnChangeTaskSchedule} changeSetEdit={()=> changeSetEdit()}/>}
+                            return <SingleSchedule 
+                            index={i}
+                            key={i}
+                            time={x.time} 
+                            task={x.task}
+                            edit={edit} 
+                            currentTimeSlot={x.notificationTime} 
+                            nextTimeSlot={i < taskSchedule.length - 1? taskSchedule[i+1].notificationTime : null} 
+                            onChangeTaskSchedule={OnChangeTaskSchedule}
+                            changeSetEdit={()=> changeSetEdit()}
+                            insertTaskScheduleRow={InsertTaskScheduleRow}
+                            />
+
+                            
+                        }
                         )
                     }
                 </ScrollView>
