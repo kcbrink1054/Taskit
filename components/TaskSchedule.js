@@ -2,24 +2,35 @@ import { StyleSheet, Text, View, ScrollView, Keyboard, ToastAndroid } from 'reac
 import React, { useEffect, useState, useCallback } from 'react'
 import { BACKGROUNDCOLOR, NEONCOLOR, WHITE } from './constants';
 import SingleSchedule from './SingleSchedule';
-import { GetDefaultTaskSchedule, GetTaskSchedule, SaveTaskSchedule } from './DataStorage';
+import { GetDefaultTaskSchedule, GetTaskSchedule, SaveTaskSchedule, GetTaskList, DeleteTaskSchedule } from './DataStorage';
 import { Feather } from '@expo/vector-icons';
 import Button from './Button';
 import NotificationsHandler from './NotificationsHandler';
 import moment from 'moment'
+import { InputType } from './InputType';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function TaskSchedule() {
     const [taskSchedule, setTaskSchedule] = useState([])
+    const [taskList, setTaskList] = useState([])
     const [edit, setEdit] = useState(false)
-    useEffect(()=> {
-        (async () => {
-            await GetTaskSchedule((t)=> 
-            {
-                console.log(t)
-                setTaskSchedule(t)
-            })
-        })()
-    }, [])
+    useFocusEffect(
+        React.useCallback(() => {
+            // (async () => {
+            //     await DeleteTaskSchedule()
+            // })()
+            (async () => {
+                await GetTaskSchedule((t)=> 
+                {
+                    setTaskSchedule(t)
+                })
+                let t = await GetTaskList()
+                setTaskList(t === null ? [] : t.filter(x => x.isCompleted == false ).sort((x, y) => y.taskId - x.taskId))
+
+            })()
+        }, [])
+      );
+    
     const CancelEditTask = async () => {
         await GetTaskSchedule(t => {
             Keyboard.dismiss()
@@ -52,8 +63,20 @@ export default function TaskSchedule() {
             }
         }))
     }
+    const OnChangeInputType = (inputType, time) => {
+        setTaskSchedule([...taskSchedule].map(x => {
+            if (x.time === time) {
+                return {
+                    ...x,
+                    inputType: inputType,
+                    task: ""
+                }
+            } else {
+                return x
+            }
+        }))
+    }
     const changeSetEdit = () => {
-        console.log(edit)
         if (!edit) {
             setEdit(true)
         }
@@ -67,7 +90,8 @@ export default function TaskSchedule() {
                 hours:data.hours,
                 minutes:data.minutes,
                 seconds: 0
-            }
+            },
+            inputType: InputType.Dropdown
         })
         setTaskSchedule(x)
     }
@@ -97,11 +121,13 @@ export default function TaskSchedule() {
                             onChangeTaskSchedule={OnChangeTaskSchedule}
                             changeSetEdit={()=> changeSetEdit()}
                             insertTaskScheduleRow={InsertTaskScheduleRow}
+                            data={taskList}
+                            inputType={x.inputType}
+                            onChangeInputType={OnChangeInputType}
                             />
 
                             
-                        }
-                        )
+                        })
                     }
                 </ScrollView>
                 <View>

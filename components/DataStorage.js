@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
+import { InputType } from './InputType';
 
 const TASK_KEY = "Task"
 const TASK_SCHEDULE_KEY = "TASK_SCHEDULE_KEY"
@@ -129,7 +130,6 @@ export const GetTaskSchedule = async (callback) => {
 }
 
 export const GetDefaultTaskSchedule = () => {
-    console.log("DefaultTaskSchedule")
     let l = []
     let x = moment().utcOffset(0).set({hour: 8, minute:0, second:0, millisecond:0})
     
@@ -141,10 +141,18 @@ export const GetDefaultTaskSchedule = () => {
                 hours:x.hour(),
                 minutes:x.minute(),
                 seconds: x.second()
-            }
+            },
+            inputType: InputType.Dropdown
         })
         x.add(30,'minutes')
     }
     // console.log(l)
     return l
+}
+
+export const DeleteTaskSchedule = async () => {
+    await AsyncStorage.removeItem(TASK_SCHEDULE_KEY).then(result => {
+        
+        
+    })
 }
