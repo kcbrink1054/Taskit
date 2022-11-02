@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ScrollView, Keyboard, ToastAndroid } from 'react-native'
 import React, { useEffect, useState, useCallback } from 'react'
-import { BACKGROUNDCOLOR, NEONCOLOR, WHITE } from './constants';
+import { BACKGROUNDCOLOR, BACKGROUNDCOLORHEADER, NEONCOLOR, WHITE } from './constants';
 import SingleSchedule from './SingleSchedule';
 import { GetDefaultTaskSchedule, GetTaskSchedule, SaveTaskSchedule, GetTaskList, DeleteTaskSchedule } from './DataStorage';
 import { Feather } from '@expo/vector-icons';
@@ -9,11 +9,12 @@ import NotificationsHandler from './NotificationsHandler';
 import moment from 'moment'
 import { InputType } from './InputType';
 import { useFocusEffect } from '@react-navigation/native';
+import { ArialBoldText } from './Text';
 
 export default function TaskSchedule() {
     const [taskSchedule, setTaskSchedule] = useState([])
     const [taskList, setTaskList] = useState([])
-    const [edit, setEdit] = useState(false)
+    const [edit, setEdit] = useState(true)
     useFocusEffect(
         React.useCallback(() => {
             // (async () => {
@@ -98,16 +99,28 @@ export default function TaskSchedule() {
     return (
         <>
             <View style={styles.container}>
-                <View style={styles.floatRight}>
+                <View style={styles.headerContainer}>
+                    <View style={styles.headerLeft}>
+                        { edit &&
+                            <ArialBoldText style={styles.editText}>Edit</ArialBoldText>
+                        }
+                        
+                    </View>
+                    <View style={styles.headerRight}>
                     { !edit &&
-                        <Feather style={styles.icon} name="edit" size={28} color={WHITE} onPress={()=>setEdit(!edit)} />
-                    }
-                    { edit &&
-                        <Feather style={styles.icon} name="x" size={28} color={WHITE} onPress={()=>CancelEditTask()} />
-                    }
-                    
+                            <Feather style={styles.icon} name="edit" size={28} color={WHITE} onPress={()=>setEdit(!edit)} />
+                        }
+                        { edit &&
+                            <>
+                                <Feather style={styles.icon} name="save" size={26} color={WHITE} onPress={()=>SaveEditTask()} />   
+                                <Feather style={styles.icon} name="refresh-cw" size={26} color={WHITE} onPress={()=>ResetEditTask()} />
+                                <Feather style={styles.icon} name="x" size={28} color={WHITE} onPress={()=>CancelEditTask()} />
+                                
+                            </>
+                        }
+                    </View>
                 </View>
-                <ScrollView>
+                <ScrollView view={styles.scrollContainer}>
                     {taskSchedule &&
                         taskSchedule.map((x,i) => {
                             return <SingleSchedule 
@@ -130,13 +143,13 @@ export default function TaskSchedule() {
                         })
                     }
                 </ScrollView>
-                <View>
+                {/* <View>
                     <Button
                         onPress={()=> NotificationsHandler.TestNotification()}
                         title="Send Notification"
                     />
-                </View>
-                { edit &&
+                </View> */}
+                {/* { edit &&
                     <View style={styles.buttoncontainer}>
                         <Button
                             onPress={CancelEditTask}
@@ -151,7 +164,7 @@ export default function TaskSchedule() {
                             title='Save'
                         />
                     </View>
-                }
+                } */}
                 
             </View>
         </>
@@ -159,14 +172,56 @@ export default function TaskSchedule() {
 }
 const styles = StyleSheet.create({
     container:{
-        flex: 1, backgroundColor:BACKGROUNDCOLOR,
-        paddingTop:50
+        flex: 1,
+        backgroundColor:BACKGROUNDCOLOR,
+        // flexDirection: 'row'
+    },
+    scrollContainer:{
+    },
+    headerContainer:{
+        backgroundColor:'RED',
+        flex: 1,
+        paddingTop:50,
+        paddingBottom:10,
+        flexDirection:'row',
+        height: 30
+        // height:'100%'
+    },
+    headerLeft:{
+        flex:1,
+    },
+    headerRight:{
+        flex:1,
+        flexDirection:'row',
+        // alignItems:'center',
+        justifyContent: 'flex-end',
+        // backgroundColor:'red'
     },
     floatRight:{
+        // flexDirection:'row-reverse',
         alignItems:'flex-end',
         paddingBottom:10,
+      
         // borderBottomWidth:1,
         // borderBottomColor:'grey'
+    },
+    floatLeft:{
+        flexDirection:'row',
+        // alignItems:'flex-end',
+      
+        // borderBottomWidth:1,
+        // borderBottomColor:'grey'
+    },
+    editText:{
+        padding:10,
+        fontSize:25,
+        flex: 1,
+        alignItems:'center',
+        justifyContent: 'center',
+    },
+    iconContainer:{
+        flex:1,
+        flexDirection:'row'
     },
     icon:{
         padding:10,

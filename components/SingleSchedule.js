@@ -4,9 +4,9 @@ import { ArialBoldText, ArialText } from './Text'
 import { WHITE } from './constants'
 import { Picker } from "@react-native-picker/picker";
 import { InputType } from './InputType';
+import { Feather } from '@expo/vector-icons';
 
 export default function SingleSchedule(props) {
-  // console.log(props.inputType)
   const onTimeClick = () => {
     let mins = 0
     if (props.nextTimeSlot !== null) {
@@ -72,21 +72,20 @@ export default function SingleSchedule(props) {
       </View>
       }
       { (props.inputType === InputType.TextField) &&
-        <TextInput
-          style={styles.inputContainer}
-          value={props.task}
-          onChangeText={(t)=>props.onChangeTaskSchedule(t, props.time)}
-          placeholderTextColor={WHITE}
-          onFocus={() => props.changeSetEdit()}
-        />
+        
+        <>
+          <TextInput
+            style={styles.inputContainer}
+            value={props.task}
+            onChangeText={(t)=>props.onChangeTaskSchedule(t, props.time)}
+            placeholderTextColor={WHITE}
+            onFocus={() => props.changeSetEdit()}
+          />
+        </>
       }
-      
-      
-      
     </View>
   )
 }
-
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -105,29 +104,24 @@ const styles = StyleSheet.create({
         borderBottomWidth: 3,
         borderColor:'#3E4E5E',
         marginHorizontal:10
-        
     },
     inputContainer:{
       borderStyle:'solid',
       borderBottomWidth: 3,
       borderColor:'#3E4E5E',
-      
       textAlignVertical:'bottom',
       color:WHITE,
       fontSize:17,
       marginHorizontal:10,
-      
       flex: 1,
       flexWrap:'wrap',
       paddingBottom:15,
       paddingLeft:7,
       marginTop:10
-        
     },
     picker:{
         marginBottom: -5,
         color:WHITE,
-        fontSize:20,
-        // marginTop:5        
+        fontSize:20,    
     }
 })
